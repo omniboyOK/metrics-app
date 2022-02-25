@@ -8,6 +8,7 @@ const app = require("../app");
 const debug = require("debug")("metrics-app:server");
 const http = require("http");
 const { initConnection, client } = require("../src/service/mongo.service");
+const { saveEvent } = require("../src/service/event.service");
 
 /**
  * Get port from environment and store in Express.
@@ -28,15 +29,12 @@ const server = http.createServer(app);
 
 initConnection(() => {
   server.listen(port);
-  client
-    .db("metrics")
-    .collection("events")
-    .insertOne(
-      { project: "metrics", event: "boot", params: {}, date: new Date() },
-      function (err, res) {
-        if (err) throw err;
-      }
-    );
+  saveEvent({
+    project: "metrics",
+    event: "boot",
+    params: {},
+    date: new Date(),
+  });
 });
 server.on("error", onError);
 server.on("listening", onListening);
