@@ -1,11 +1,14 @@
 const { saveEvent } = require("../service/event.service");
 
-function saveEventController(req, res) {
+async function saveEventController(req, res, next) {
+  const event = req.body;
+
   try {
-    const { event } = req.body;
     await saveEvent(event);
     return res.status(200).json();
   } catch (e) {
-    throw e;
+    return res.status(400).json({ status: 400, message: e.message });
   }
 }
+
+module.exports = { saveEventController };

@@ -1,13 +1,14 @@
 const { DB_NAME, EVENTS_COLLECTION } = require("../constants/database");
+const { eventFabric } = require("../helper/events.helper");
 const { client } = require("./mongo.service");
 
-function saveEvent(event = {}) {
-  client
-    .db(DB_NAME)
-    .collection(EVENTS_COLLECTION)
-    .insertOne(event, function (err, res) {
-      if (err) throw err;
-    });
+async function saveEvent(event = {}) {
+  const newEvent = eventFabric(event);
+  try {
+    await client.db(DB_NAME).collection(EVENTS_COLLECTION).insertOne(newEvent);
+  } catch (e) {
+    throw e;
+  }
 }
 
 module.exports = {
