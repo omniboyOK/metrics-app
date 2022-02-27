@@ -29,12 +29,9 @@ const server = http.createServer(app);
 
 initConnection(() => {
   server.listen(port);
-  saveEvent({
-    project: "metrics",
-    event: "boot",
-    params: {},
-    date: new Date(),
-  });
+  if (process.env.NODE_ENV === "production") {
+    saveEvent({ project: "metrics", event: "boot", params: {}, date: new Date() });
+  }
 });
 server.on("error", onError);
 server.on("listening", onListening);
