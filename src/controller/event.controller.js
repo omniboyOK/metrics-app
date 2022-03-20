@@ -66,4 +66,8 @@ async function getEventsByProjectController(req, res, next) {
   }
 }
 
-module.exports = { saveEventController, getActiveProjectsController, getEventsByProjectController };
+module.exports = {
+  saveEventController,
+  getActiveProjectsController,
+  getEventsByProjectController,
+};

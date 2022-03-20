@@ -22,7 +22,7 @@ app.use("/", indexRouter);
 app.use("/events", eventsRouter);
 
 app.get("*", function (req, res) {
-  res.status(404).send("<h1>404! Page not found</h1>");
+  res.render("index", { title: "Dashboard" });
 });
 
 module.exports = app;
